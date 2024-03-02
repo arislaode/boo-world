@@ -1,0 +1,411 @@
+openapi: 3.0.0
+info:
+  title: Celebrity Personality Comment / Vote API
+  description: API for celebrity personality comment/vote system.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:4000/v1
+    description: Development Server
+paths:
+  /mbti:
+    post:
+      summary: Create a new MBTI type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MBTI'
+      responses:
+        '201':
+          description: MBTI type created
+    get:
+      summary: Get all MBTI data
+      responses:
+        '200':
+          description: A list of MBTI types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MBTI'
+  /mbti/{id}:
+    put:
+      summary: Update an MBTI type
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MBTI'
+      responses:
+        '200':
+          description: MBTI type updated
+    delete:
+      summary: Delete an MBTI type
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: MBTI type deleted
+  /enneagram:
+    post:
+      summary: Create a new Enneagram type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enneagram'
+      responses:
+        '201':
+          description: Enneagram type created
+    get:
+      summary: Get all Enneagram types
+      responses:
+        '200':
+          description: A list of Enneagram types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Enneagram'
+  /enneagram/{id}:
+    put:
+      summary: Update an Enneagram type
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Enneagram'
+      responses:
+        '200':
+          description: Enneagram type updated
+    delete:
+      summary: Delete an Enneagram type
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Enneagram type deleted
+  /zodiac:
+    post:
+      summary: Create a new Zodiac sign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Zodiac'
+      responses:
+        '201':
+          description: Zodiac sign created
+    get:
+      summary: Get all Zodiac signs
+      responses:
+        '200':
+          description: A list of Zodiac signs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Zodiac'
+  /zodiac/{id}:
+    put:
+      summary: Update a Zodiac sign
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Zodiac'
+      responses:
+        '200':
+          description: Zodiac sign updated
+    delete:
+      summary: Delete a Zodiac sign
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Zodiac sign deleted
+  /profiles:
+    post:
+      summary: Create New Profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfilePostRequest'
+      responses:
+        '201':
+          description: Profile created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfilePostResponse'
+        '400':
+          description: Bad request
+  /profiles/{id}:
+    get:
+      summary: Retrieve profiles based on ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Profile found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfilePostResponse'
+        '404':
+          description: Profile not found
+  /comments:
+    post:
+      summary: Added new comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentPostRequest'
+      responses:
+        '201':
+          description: comment created successfully
+        '400':
+          description: Bad request
+    get:
+      summary: Retrieve comments with filter and pagination options
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/mbtiParam'
+        - $ref: '#/components/parameters/enneagramParam'
+        - $ref: '#/components/parameters/zodiacParam'
+      responses:
+        '200':
+          description: A list of comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentGetResponse'
+
+  /comments/{id}/like:
+    patch:
+      summary: Toggle like status of a comment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the comment to like/unlike
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                like:
+                  type: boolean
+                  description: Specify whether to like (true) or unlike (false) the comment
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      userId:
+                        type: string
+                      text:
+                        type: string
+                      personalityTypes:
+                        type: object
+                        properties:
+                          mbti:
+                            type: string
+                          enneagram:
+                            type: string
+                          zodiac:
+                            type: string
+                      createdAt:
+                        type: string
+                      likes:
+                        type: number
+
+components:
+  schemas:
+    MBTI:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "INFP"
+    Enneagram:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "4w5"
+    Zodiac:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Pisces"
+    ProfilePostRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "La Ode Aris Saputra"
+        age:
+          type: integer
+          example: 29
+        bio:
+          type: string
+          example: "Software Developer"
+    ProfilePostResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+        bio:
+          type: string
+    CommentPostRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        text:
+          type: string
+        personalityTypes:
+          type: object
+          properties:
+            mbti:
+              type: string
+            enneagram:
+              type: string
+            zodiac:
+              type: string
+    CommentGetResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentPostRequest'
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalPages:
+          type: integer
+        totalResults:
+          type: integer
+    CommentPostResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        text:
+          type: string
+        personalityTypes:
+          type: object
+          properties:
+            mbti:
+              type: string
+            enneagram:
+              type: string
+            zodiac:
+              type: string
+        createdAt:
+          type: string
+        likes:
+          type: integer
+  parameters:
+    pageParam:
+      in: query
+      name: page
+      schema:
+        type: integer
+        description: Page number for pagination
+    limitParam:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        description: Number of items per page
+    mbtiParam:
+      in: query
+      name: mbti
+      schema:
+        type: string
+        description: Filter comments by MBTI type
+    enneagramParam:
+      in: query
+      name: enneagram
+      schema:
+        type: string
+        description: Filter comments by Enneagram type
+    zodiacParam:
+      in: query
+      name: zodiac
+      schema:
+        type: string
+        description: Filter comments by Zodiac sign
