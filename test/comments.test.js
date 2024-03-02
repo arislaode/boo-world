@@ -15,6 +15,7 @@ describe('Comment API Tests', () => {
             .post('/v1/profiles')
             .send({
             name: 'La Ode Aris Saputra',
+            email: 'aris@example.com',
             age: 29,
             bio: 'Software Developer'
         });
