@@ -4,6 +4,12 @@ const createProfile = async (profileData) => {
     if (!profileData.name) {
         throw new Error('Name is required.');
     }
+    
+    const existingProfile = await Profile.findOne({ email: profileData.email });
+    if (existingProfile) {
+        throw new Error('Email already in use.');
+    }
+
     const profile = new Profile(profileData);
     await profile.save();
     return profile;
