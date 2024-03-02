@@ -1,4 +1,4 @@
-const { createComment, getComments, toggleLike } = require('../services/commentService');
+const { createComment, getComments, toggleLike, filterCommentsByType } = require('../services/commentService');
 const asyncHandler = require('express-async-handler');
 const logger = require('../utils/logger');
 
@@ -33,4 +33,10 @@ exports.toggleLike = asyncHandler(async (req, res) => {
   const submitLike = await toggleLike(req.params.id, req.body.like);
   logger.info(`Comment ${req.body.like ? 'liked' : 'unliked'} successfully`);
   res.sendSuccess(submitLike, 200, 'create like / unliked');
+});
+
+exports.filterComments = asyncHandler(async (req, res, next) => {
+  const { filterType } = req.query;
+  const comments = await filterCommentsByType(filterType || 'all');
+  res.sendSuccess(comments, 200, 'Filtered comments successfully');
 });
