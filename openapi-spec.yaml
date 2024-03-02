@@ -284,6 +284,32 @@ paths:
                       likes:
                         type: number
 
+  /comments/filter:
+    get:
+      summary: Filter comments by personality type
+      description: Returns a list of comments filtered by the specified personality type (ALL, Zodiac, Enneagram, MBTI).
+      parameters:
+        - in: query
+          name: filterType
+          schema:
+            type: string
+            enum: [all, zodiac, enneagram, mbti]
+          required: false
+          description: The type of personality filter to apply (defaults to 'all' if not specified).
+      responses:
+        '200':
+          description: Successfully retrieved filtered comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentFilter'
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
 components:
   schemas:
     MBTI:
@@ -383,6 +409,22 @@ components:
           type: string
         likes:
           type: integer
+    CommentFilter:
+      type: object
+      properties:
+        _id:
+          type: string
+        text:
+          type: string
+        zodiac:
+          type: string
+        enneagram:
+          type: string
+        mbti:
+          type: string
+      required:
+        - _id
+        - text
   parameters:
     pageParam:
       in: query
