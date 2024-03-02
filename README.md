@@ -49,7 +49,28 @@ Ensure you have these dependencies installed before attempting to run the projec
    npm run dev
    ```
 
-## Usage
+## How to Use the API
+
+Follow these steps to get started with our API:
+
+1. **Add a New MBTI Type**: First, use `/mbti` with a POST request to add an MBTI type.
+
+2. **Add a New Enneagram Type**: Then, use `/enneagram` with a POST to add an Enneagram type.
+
+3. **Add a New Zodiac Sign**: Next, use `/zodiac` with a POST to add a Zodiac sign.
+
+4. **Create a Profile**: Now, you can create a user profile by using `/profiles` with a POST request.
+
+5. **Post a Comment**: Share your thoughts by posting a comment with `/comments` using POST.
+
+6. **Like a Comment**: Show some love to a comment by using PATCH on `/comments/{id}/like`, where `{id}` is the comment's ID you want to like.
+
+## API Docs with Swagger
+
+You can find detailed documentation for our API at `http://localhost:4000/v1/api-docs`. This page has all the info you need to understand and use the API, including how to make requests and what responses to expect.
+
+## LIST
+The following is a list of APIs for this system : 
 
 ### Personality Types (MBTI)
 
