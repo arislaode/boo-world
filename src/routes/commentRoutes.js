@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const asyncHandler = require('express-async-handler');
 const commentController = require('../controllers/commentController');
 
-router.post('/', asyncHandler(commentController.createComment));
-router.get('/', asyncHandler(commentController.getComments));
-router.patch('/:id/like', asyncHandler(commentController.toggleLike));
+router.post('/', commentController.createComment);
+router.get('/', commentController.getComments);
+router.patch('/:id/like', commentController.toggleLike);
+router.get('/filter', commentController.filterComments);
 
 module.exports = router;
