@@ -65,4 +65,17 @@ const toggleLike = async (commentId, like) => {
   return comment;
 };
 
-module.exports = { createComment, getComments, toggleLike };
+const filterCommentsByType = async (filterType) => {
+  let filter = {};
+  if (filterType !== 'all') {
+    // Correctly reference the nested paths for mbti, enneagram, and zodiac
+    filter[`personalityTypes.${filterType}`] = { $exists: true, $ne: null };
+    return await Comment.find(filter).populate(`personalityTypes.${filterType}`);
+  } else {
+    // If filterType is 'all', no need to filter by personality type
+    return await Comment.find({});
+  }
+};
+
+
+module.exports = { createComment, getComments, toggleLike, filterCommentsByType };
