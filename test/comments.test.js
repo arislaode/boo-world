@@ -9,6 +9,7 @@ describe('Comment API Tests', () => {
     let enneagramId;
     let zodiacId;
     let res;
+    let commentText;
 
     beforeAll(async () => {
         res = await request(app)
@@ -71,8 +72,41 @@ describe('Comment API Tests', () => {
       expect(res.body[0].likes).toEqual(0);
       if (res.body[0] && res.body[0]._id) {
         commentId = res.body[0]._id;
+        commentText = res.body[0].text;
       } else {
         throw new Error('Data  profile not found');
       }
     });
+
+    it('should create like / dislike', async () => {
+    
+
+        like_dislike = { "like": true}
+        const res = await request(app)
+          .patch(`/v1/comments/${commentId}/like`)
+          .send(like_dislike);
+    
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.data._id).toEqual(commentId);
+        expect(res.body.data.text).toEqual(commentText);
+        expect(res.body.data.personalityTypes.mbti).toEqual(mbtiId);
+        expect(res.body.data.personalityTypes.enneagram).toEqual(enneagramId);
+        expect(res.body.data.personalityTypes.zodiac).toEqual(zodiacId);
+        expect(res.body.data.likes).toEqual(1);
+      });
+
+    it('should get all filter comment', async () => {
+    
+        const res = await request(app)
+          .get(`/v1/comments/filter?filterType=all`);
+    
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.data[0].userId).toEqual(profileId);
+        expect(res.body.data[0].text).toEqual(commentText);
+        expect(res.body.data[0].personalityTypes.mbti).toEqual(mbtiId);
+        expect(res.body.data[0].personalityTypes.enneagram).toEqual(enneagramId);
+        expect(res.body.data[0].personalityTypes.zodiac).toEqual(zodiacId);
+        expect(res.body.data[0].likes).toEqual(1);
+      });
+
 });
