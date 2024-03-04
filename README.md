@@ -103,6 +103,7 @@ The following is a list of APIs for this system :
 - **POST** `/comments`: Create a new comment.
 - **GET** `/comments`: Retrieve all comments.
 - **PATCH** `/comments/{id}/like`: Like a comment.
+- **GET** `/comments/filter`: list comment filtered
 
 ## Testing
 
