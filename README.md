@@ -65,6 +65,8 @@ Follow these steps to get started with our API:
 
 6. **Like a Comment**: Show some love to a comment by using PATCH on `/comments/{id}/like`, where `{id}` is the comment's ID you want to like.
 
+7. **Filter Comment**: Show some love to a comment by using PATCH on `/comments/filter`, Returns a list of comments filtered by the specified personality type (ALL, Zodiac, Enneagram, MBTI).
+
 ## API Docs with Swagger
 
 You can find detailed documentation for our API at `http://localhost:4000/v1/api-docs`. This page has all the info you need to understand and use the API, including how to make requests and what responses to expect.
