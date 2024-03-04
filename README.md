@@ -65,7 +65,7 @@ Follow these steps to get started with our API:
 
 6. **Like a Comment**: Show some love to a comment by using PATCH on `/comments/{id}/like`, where `{id}` is the comment's ID you want to like.
 
-7. **Filter Comment**: Show some love to a comment by using PATCH on `/comments/filter`, Returns a list of comments filtered by the specified personality type (ALL, Zodiac, Enneagram, MBTI).
+7. **Filter Comment**: Show some to filter comments by using GET on `/comments/filter`, Returns a list of comments filtered by the specified personality type (ALL, Zodiac, Enneagram, MBTI).
 
 ## API Docs with Swagger
 
